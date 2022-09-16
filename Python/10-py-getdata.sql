@@ -1,4 +1,3 @@
-train_data[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived', ascending=False)
 
 
 EXECUTE sp_execute_external_script @language = N'Python'
@@ -35,14 +34,15 @@ print(data)'
 GO
 
 
-alter table dbo.train alter column age nvarchar(50);
-ALTER table dbo.train alter column Survived nvarchar(50);
+--alter table dbo.train alter column age nvarchar(50);
+--ALTER table dbo.train alter column Survived nvarchar(50);
 
 
 EXEC sp_execute_external_script  @language =N'Python'
     , @script=N'
 tt = train_data.groupby(["Sex","Pclass"])
-print(tt);'
+print(tt)
+tt.head()'
     , @input_data_1 =N'SELECT * from dbo.train'
 	, @input_data_1_name = N'train_data';                          
 GO
